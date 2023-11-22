@@ -11,6 +11,7 @@ function App() {
 
 	const [isLogin, setIsLogin] = useState();
 	const [buyProductData, setBuyProductData] = useState();
+	const [shopListProductData, setShopListProductData] = useState();
 
 	const [PPCartData, setPPCartData] = useState([]);
 
@@ -43,6 +44,7 @@ function App() {
 					isLogin={isLogin}
 					setIsLogin={setIsLogin}
 					setBuyProductData={setBuyProductData}
+					setShopListProductData={setShopListProductData}
 					isShopCreate={isShopCreate}
 					setIsShopCreate={setIsShopCreate}
 				/>
@@ -52,6 +54,8 @@ function App() {
 					addToCart={addToCart}
 					buyProductData={buyProductData}
 					setBuyProductData={setBuyProductData}
+					shopListProductData={shopListProductData}
+					setShopListProductData={setShopListProductData}
 					isShopCreate={isShopCreate}
 					setIsShopCreate={setIsShopCreate}
 				/>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Card from '../../components/card/Card';
 
-export default function SecondPage({ addToCart, setBuyProductData }) {
+export default function SecondPage({ addToCart, setShopListProductData }) {
 	const params = useParams();
 
 	const [resultData, setResultData] = useState();
@@ -25,7 +25,7 @@ export default function SecondPage({ addToCart, setBuyProductData }) {
 					resultData ?
 						resultData.map((e) => {
 							return (
-								<Card cardData={e} addToCart={addToCart} setBuyProductData={setBuyProductData} />
+								<Card cardData={e} addToCart={addToCart} setShopListProductData={setShopListProductData} />
 							);
 						})
 						:

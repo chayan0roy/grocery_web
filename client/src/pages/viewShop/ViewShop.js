@@ -1,28 +1,24 @@
-import './ShopPage.css'
+import './ViewShop.css'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
-import ShopPageCard from './ShopPageCard';
+import ViewShopCard from './ViewShopCard';
 
-export default function ShopPage({ addToCart, setBuyProductData }) {
+export default function ViewShop({ addToCart, setBuyProductData }) {
 	const navigate = useNavigate();
 	const params = useParams();
 	const allCatagory = ["cookies", "cake", "brade", "milkShake", "hotdog"];
 	useEffect(() => {
-		getShopData();
+		viewShop();
 	}, [])
 
 	const [shopData, setShopData] = useState();
 	const [shopProducts, setsShopProducts] = useState();
 
-	const getShopData = async () => {
-		const result = await axios.get(`http://localhost:5000/getShopData/${params.shopID}`);
+	const viewShop = async () => {
+		const result = await axios.get(`http://localhost:5000/viewShop/${params.shopID}`);
 		setShopData(result.data);
-	}
-console.log(shopData);
-	const goToShopFollowingPage = async () => {
-		navigate('/shopFollowingPage');
 	}
 
 	const getShopProducts = async () => {
@@ -31,7 +27,7 @@ console.log(shopData);
 	}
 	
 	return (
-		<div className='ShopPage'>
+		<div className='ViewShop'>
 			{
 				shopData
 					?
@@ -50,10 +46,6 @@ console.log(shopData);
 								<div>
 									<h4>Follower</h4>
 									<h4>{shopData.followers.length}</h4>
-								</div>
-								<div>
-									<h4 onClick={goToShopFollowingPage}>Following</h4>
-									{/* <h4>{shopData.followings.length}</h4> */}
 								</div>
 							</div>
 						</div>
@@ -83,21 +75,21 @@ console.log(shopData);
 					}
 				</div>
 				<div className='shopBody'>
-					<div className='ShopBodyArea'>
+					<div className='boxArea'>
 						{
 							shopProducts
 								?
 								<>
-									<div className='ShopBodyAreaTop'>
+									<div className='boxAreaTop'>
 										<h1>{allCatagory[0]}</h1>
 										<Link className='link' to={`/secondPage/${allCatagory[0]}`}>See All</Link>
 									</div>
-									<div className='ShopBodyAreaBottom'>
+									<div className='boxAreaBottom'>
 										{
 											shopProducts.map((e) => {
 												if (e.products.catagory === allCatagory[0]) {
 													return (
-														<ShopPageCard cardData={e} addToCart={addToCart} setBuyProductData={setBuyProductData} />
+														<ViewShopCard cardData={e} addToCart={addToCart} setBuyProductData={setBuyProductData} />
 													);
 												}
 											})

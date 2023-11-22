@@ -18,6 +18,20 @@ const User = new mongoose.Schema({
     shopID: {
         type: String
     },
+    followings: [{
+        followingID: {
+            type: String
+        },
+        followingName: {
+            type: String
+        },
+        followingImage: {
+            type: String
+        },
+        followingCatagory: {
+            type: String
+        }
+    }],
     tokens: [{
         token: {
             type: String,

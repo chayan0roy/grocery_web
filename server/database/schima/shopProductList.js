@@ -3,6 +3,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const ShopProductList = new mongoose.Schema({
+    shopId:{ 
+        type: String 
+    },
     productList: [
         {
             productId: { 

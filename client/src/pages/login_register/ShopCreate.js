@@ -16,6 +16,7 @@ export default function ShopCreate({ setIsShopCreate }) {
 	const [shopName, setShopName] = useState();
 	const [shopType, setShopType] = useState(shopTypes[0]);
 	const [shopAddress, setShopAddress] = useState();
+	const [place, setPlace] = useState();
 
 	const convertShopIMG = (e) => {
 		var fileReader = new FileReader();
@@ -34,6 +35,7 @@ export default function ShopCreate({ setIsShopCreate }) {
 			fromData.append("shopName", shopName);
 			fromData.append("shopType", shopType);
 			fromData.append("shopAddress", shopAddress);
+			fromData.append("place", place);
 			const result = await axios.post("http://localhost:5000/shopCreate", fromData,);
 			setIsShopCreate(true);
 			navigate('/shopPage');
@@ -69,6 +71,11 @@ export default function ShopCreate({ setIsShopCreate }) {
 					<div class="input_box">
 						<input className='input_box' type='text' name='name' required onChange={(e) => setShopAddress(e.target.value)}></input>
 						<span>Enter Address</span>
+						<i></i>
+					</div>
+					<div class="input_box">
+						<input className='input_box' type='text' name='name' required onChange={(e) => setPlace(e.target.value)}></input>
+						<span>Enter Place</span>
 						<i></i>
 					</div>
 					<button className='btn' type='submit' onClick={handleSubmit}>Submit</button>

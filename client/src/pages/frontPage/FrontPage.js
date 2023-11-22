@@ -3,12 +3,14 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from 'axios';
+import FromData from 'form-data';
+import Cookies from 'js-cookie';
 import './FrontPage.css'
 import { Link, useNavigate } from 'react-router-dom';
 import Card from '../../components/card/Card';
 
 
-export default function FrontPage({ addToCart, setBuyProductData }) {
+export default function FrontPage({ addToCart, setShopListProductData }) {
 
 	const navigate = useNavigate();
 
@@ -23,10 +25,13 @@ export default function FrontPage({ addToCart, setBuyProductData }) {
 	const allCatagory = ["cookies", "cake", "brade", "milkShake", "hotdog"];
 
 	const getProducts = async () => {
-		const result = await axios.get("http://localhost:5000/getProducts");
+		const token = Cookies.get("auth_token");
+		let fromData = new FromData();
+		fromData.append("token", token);
+		const result = await axios.post("http://localhost:5000/getProducts", fromData,);
 		setResultData(result.data);
 	}
-// console.log(resultData);
+
 	const getCompany = async () => {
 		const result = await axios.get("http://localhost:5000/getCompany");
 		setCompanyLists(result.data);
@@ -57,10 +62,10 @@ export default function FrontPage({ addToCart, setBuyProductData }) {
 									<Slider {...settings}>
 										{
 											resultData.map((e) => {
-												if (e.catagory === allCatagory[0]) {
+												if (e[0].catagory === allCatagory[0]) {
 													return (
 														<div className='slideBox'>
-															<Card cardData={e} addToCart={addToCart} setBuyProductData={setBuyProductData} />
+															<Card cardData={e[0]} addToCart={addToCart} setShopListProductData={setShopListProductData} />
 														</div>
 													);
 												}
@@ -87,7 +92,7 @@ export default function FrontPage({ addToCart, setBuyProductData }) {
 										resultData.map((e) => {
 											if (e.catagory === allCatagory[1]) {
 												return (
-													<Card cardData={e} addToCart={addToCart} setBuyProductData={setBuyProductData} />
+													<Card cardData={e} addToCart={addToCart} setShopListProductData={setShopListProductData} />
 												);
 											}
 										})
@@ -112,7 +117,7 @@ export default function FrontPage({ addToCart, setBuyProductData }) {
 										resultData.map((e) => {
 											if (e.catagory === allCatagory[2]) {
 												return (
-													<Card cardData={e} addToCart={addToCart} setBuyProductData={setBuyProductData} />
+													<Card cardData={e} addToCart={addToCart} setShopListProductData={setShopListProductData} />
 												);
 											}
 										})
@@ -138,7 +143,7 @@ export default function FrontPage({ addToCart, setBuyProductData }) {
 												if (e.catagory === allCatagory[3]) {
 													return (
 														<div className='slideBox'>
-															<Card cardData={e} addToCart={addToCart} setBuyProductData={setBuyProductData} />
+															<Card cardData={e} addToCart={addToCart} setShopListProductData={setShopListProductData} />
 														</div>
 													);
 												}
@@ -165,7 +170,7 @@ export default function FrontPage({ addToCart, setBuyProductData }) {
 										resultData.map((e) => {
 											if (e.catagory === allCatagory[4]) {
 												return (
-													<Card cardData={e} addToCart={addToCart} setBuyProductData={setBuyProductData} />
+													<Card cardData={e} addToCart={addToCart} setShopListProductData={setShopListProductData} />
 												);
 											}
 										})

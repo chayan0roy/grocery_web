@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import Card from '../../components/card/Card';
 
-export default function CPLPage({ addToCart, setBuyProductData }) {
+export default function CPLPage({ addToCart, setShopListProductData }) {
 	const navigate = useNavigate();
 	const params = useParams();
 
@@ -26,7 +26,7 @@ export default function CPLPage({ addToCart, setBuyProductData }) {
 					resultData ?
 						resultData.map((e) => {
 							return (
-								<Card cardData={e} addToCart={addToCart} setBuyProductData={setBuyProductData} />
+								<Card cardData={e} addToCart={addToCart} setShopListProductData={setShopListProductData} />
 							);
 						})
 						:

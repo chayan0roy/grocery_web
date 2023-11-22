@@ -7,11 +7,10 @@ import './Header.css'
 import AddToCart from '../../pages/addToCartPage/AddToCart'
 import SearchArea from '../searchArea/SearchArea'
 import homeImg from '../../assets/home.png'
-import addDataImg from '../../assets/database.png'
 import logoutImg from '../../assets/logout.png'
 
 
-export default function Header({ addToCart, setPPCartData, PPCartData, isLogin, setIsLogin, setBuyProductData, isShopCreate, setIsShopCreate }) {
+export default function Header({ addToCart, setPPCartData, PPCartData, isLogin, setIsLogin, setBuyProductData, setShopListProductData, isShopCreate, setIsShopCreate }) {
 
 	const [userImg, setUserImg] = useState();
 	const [shopID, setShopID] = useState();
@@ -66,13 +65,10 @@ export default function Header({ addToCart, setPPCartData, PPCartData, isLogin, 
 						?
 						<>
 							<Link className='link navLink flex' to='/'><img src={homeImg} /></Link>
-							<SearchArea addToCart={addToCart} setBuyProductData={setBuyProductData} />
-							<Link className='link navLink flex' to='/addData'><img src={addDataImg} /></Link>
+							<SearchArea addToCart={addToCart} setShopListProductData={setShopListProductData} />
 							<AddToCart PPCartData={PPCartData} setPPCartData={setPPCartData} isShopCreate={isShopCreate} />
 							<Link className='link navLink flex' onClick={logout} to='/register'><img src={logoutImg} /></Link>
-
-							<Link className='link navLink flex' to={shopID ? `/shopPage/${shopID}` : "/shopCreate" } ><img className='profileImg' src={userImg} /></Link>
-
+							<Link className='link navLink flex' to={shopID ? `/shopPage/${shopID}` : "/userPage" } ><img className='profileImg' src={userImg} /></Link>
 						</>
 						:
 						<>

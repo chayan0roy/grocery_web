@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import FromData from 'form-data';
+import Cookies from 'js-cookie';
 import axios from 'axios';
 import './AddData.css'
 import downloadImg from '../../assets/downloadImg.png'
@@ -7,14 +8,20 @@ import downloadImg from '../../assets/downloadImg.png'
 
 export default function AddData() {
 
+    const allSellingType = ["container", "peti"];
     const allCatagory = ["cookies", "cake", "brade", "milkShake", "hotdog"];
     
-    const [productName, setProductName] = useState("");
+    const [productName, setProductName] = useState();
     const [productImage, setProductImage] = useState();
-    const [companyName, setCompanyName] = useState("");
+    const [companyName, setCompanyName] = useState();
     const [companyImage, setCompanyImage] = useState();
+    const [sellType, setSellType] = useState(allSellingType[0]);
     const [catagory, setCatagory] = useState(allCatagory[0]);
+    const [productPrice, setProductPrice] = useState();
+    const [quantity, setQuantity] = useState();
     const [description, setDescription] = useState();
+    const [offer, setOffer] = useState();
+    const [deliveryCharge, setDeliveryCharge] = useState();
     const [rating, setRating] = useState();
 
     const convertProductIMG = (e) => {
@@ -34,14 +41,20 @@ export default function AddData() {
     }
 
     const handleSubmit = async () => {
+        const token = Cookies.get("auth_token");
         let fromData = new FromData();
-
+        fromData.append("token", token);
         fromData.append("productName", productName);
         fromData.append("productImage", productImage);
         fromData.append("companyName", companyName);
         fromData.append("companyImage", companyImage);
+        fromData.append("sellType", sellType);
         fromData.append("catagory", catagory);
+        fromData.append("productPrice", productPrice);
+        fromData.append("quantity", quantity);
         fromData.append("description", description);
+        fromData.append("offer", offer);
+        fromData.append("deliveryCharge", deliveryCharge);
         fromData.append("rating", rating);
         
         const result = await axios.post("http://localhost:5000/addData", fromData,);
@@ -63,16 +76,6 @@ export default function AddData() {
                     <span>Company Name</span>
                     <i></i>
                 </div>
-                <div class="input_box">
-                    <input className='input_box' type='text' name='description' required onChange={(e) => setDescription(e.target.value)}></input>
-                    <span>Product Description</span>
-                    <i></i>
-                </div>
-                <div class="input_box">
-                    <input className='input_box' type='text' name='rating' required onChange={(e) => setRating(e.target.value)}></input>
-                    <span>Rating</span>
-                    <i></i>
-                </div>
                 <div class="select_box">
                     <select onChange={(c) => setCatagory(c.target.value)}>
                         {
@@ -83,6 +86,47 @@ export default function AddData() {
                             })
                         }
                     </select>
+                </div>
+                <div class="select_box">
+                    <select onChange={(s) => setSellType(s.target.value)}>
+                        {
+                            allSellingType.map((s) => {
+                                return (
+                                    <option value={s}>{s}</option>
+                                )
+                            })
+                        }
+                    </select>
+                </div>
+                <div class="input_box">
+                    <input className='input_box' type='text' name='description' required onChange={(e) => setProductPrice(e.target.value)}></input>
+                    <span>Product Price</span>
+                    <i></i>
+                </div>
+                <div class="input_box">
+                    <input className='input_box' type='text' name='description' required onChange={(e) => setDescription(e.target.value)}></input>
+                    <span>Product Description</span>
+                    <i></i>
+                </div>
+                <div class="input_box">
+                    <input className='input_box' type='text' name='description' required onChange={(e) => setQuantity(e.target.value)}></input>
+                    <span>Product Quantity</span>
+                    <i></i>
+                </div>
+                <div class="input_box">
+                    <input className='input_box' type='text' name='rating' required onChange={(e) => setOffer(e.target.value)}></input>
+                    <span>Offer</span>
+                    <i></i>
+                </div>
+                <div class="input_box">
+                    <input className='input_box' type='text' name='rating' required onChange={(e) => setDeliveryCharge(e.target.value)}></input>
+                    <span>Delivery Charge</span>
+                    <i></i>
+                </div>
+                <div class="input_box">
+                    <input className='input_box' type='text' name='rating' required onChange={(e) => setRating(e.target.value)}></input>
+                    <span>Rating</span>
+                    <i></i>
                 </div>
                 <button className='btn' type='submit' onClick={handleSubmit}>Submit</button>
             </div>
