@@ -10,7 +10,7 @@ function App() {
 	const [isShopCreate, setIsShopCreate] = useState(false);
 
 	const [isLogin, setIsLogin] = useState();
-	const [buyProductData, setBuyProductData] = useState();
+	const [buyProductData, setBuyProductData] = useState([]);
 	const [shopListProductData, setShopListProductData] = useState();
 
 	const [PPCartData, setPPCartData] = useState([]);
@@ -20,7 +20,7 @@ function App() {
 		let i = 0;
 
 		for (i in PPCartData) {
-			if (PPCartData[i]._id === newPPCartData._id) {
+			if (PPCartData[i][0]._id === newPPCartData[0]._id && PPCartData[i][1]._id === newPPCartData[1]._id) {
 				found = true;
 				break;
 			}

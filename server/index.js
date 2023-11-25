@@ -272,27 +272,40 @@ app.post('/addData', async (req, res) => {
 app.post('/getProducts', async (req, res) => {
 	const { token } = req.body;
 	const arr = [];
-	const productArr = [];
+	const IdArr = [];
 	try {
 		const isUsrToken = await User_Schima.findOne({ "tokens.token": token });
 		if (isUsrToken) {
 			for (let r of isUsrToken.followings) {
-				const isUsrToken = await Shop_Schima.findOne({ "_id": r.followingID });
-				if (isUsrToken) {
-					const productLists = await ShopProductList_Schima.findOne({ "_id": isUsrToken.shopProductListId });
+				const userFollowings = await Shop_Schima.findOne({ "_id": r.followingID });
+				if (userFollowings) {
+					const productLists = await ShopProductList_Schima.findOne({ "_id": userFollowings.shopProductListId });
 					if (productLists) {
 						for (let r of productLists.productList) {
-							arr.push(r.productId);
+							let id = r.productId;
+							let found = searchLogo(id);
+							if (!found) {
+								IdArr.push(id);
+								const isProduct = await Product_Schima.findOne({ "_id": id });
+								arr.push(isProduct);
+							}
+
+							function searchLogo(id) {
+								let found = false;
+								for (let i of IdArr) {
+									if (i == id) {
+										found = true;
+										break;
+									}
+								}
+								return found;
+							}
 						}
 					}
 
 				}
 			}
-			for (let r of new Set(arr)) {
-				const isProduct = await Product_Schima.find({ "_id": r });
-				productArr.push(isProduct);
-			}
-			res.send(productArr);
+			res.send(arr);
 		}
 	} catch (err) {
 		console.log(err)
@@ -333,7 +346,7 @@ app.get('/getShopProducts/:shopProductListId', async (req, res) => {
 
 //buySingleProducts ================================= buySingleProducts
 app.post('/buySingleProducts', async (req, res) => {
-	const { token, productId, quantity, productPrice, sellType, offer, deliveryCharge } = req.body;
+	const { token, productId, productListObjectId, quantity, productPrice, sellType, offer, deliveryCharge } = req.body;
 	try {
 		const isUsrToken = await User_Schima.findOne({ "tokens.token": token });
 		if (isUsrToken) {
@@ -353,6 +366,18 @@ app.post('/buySingleProducts', async (req, res) => {
 					];
 					isShopProductListId.productList = isShopProductListId.productList.concat(productList);
 					await isShopProductListId.save();
+
+					const isproductListObjectId = await ShopProductList_Schima.findOne({ "productList._id": productListObjectId });
+					if (isproductListObjectId) {
+						for (let r of isproductListObjectId.productList) {
+							if (r._id == productListObjectId) {
+								r.quantity = r.quantity - quantity;
+								await isproductListObjectId.save();
+								break;
+							}
+						}
+					}
+
 				} else {
 					let productList = [
 						{
@@ -369,6 +394,17 @@ app.post('/buySingleProducts', async (req, res) => {
 
 					isShopId.shopProductListId = data._id.toString();
 					await isShopId.save();
+
+					const isproductListObjectId = await ShopProductList_Schima.findOne({ "productList._id": productListObjectId });
+					if (isproductListObjectId) {
+						for (let r of isproductListObjectId.productList) {
+							if (r._id == productListObjectId) {
+								r.quantity = r.quantity - quantity;
+								await isproductListObjectId.save();
+								break;
+							}
+						}
+					}
 				}
 			}
 		}

@@ -15,16 +15,17 @@ export default function BuyPage({ buyProductData, addToCart, isShopCreate }) {
 
     const [productItem, setProductItem] = useState(1);
 
-    const buyProduct = async () => {
+    const buyProduct = async (buyProductData) => {
         if (isShopCreate) {
             let fromData = new FromData();
             fromData.append("token", token);
-            fromData.append("productId", buyProductData._id);
+            fromData.append("productId", buyProductData[0]._id);
+            fromData.append("productListObjectId", buyProductData[1]._id);
             fromData.append("quantity", productItem);
-            fromData.append("productPrice", buyProductData.productPrice);
-            fromData.append("sellType", "pkt");
-            fromData.append("offer", buyProductData.offer);
-            fromData.append("deliveryCharge", 30);
+            fromData.append("productPrice", buyProductData[1].productPrice);
+            fromData.append("sellType", buyProductData[1].sellType);
+            fromData.append("offer", buyProductData[1].offer);
+            fromData.append("deliveryCharge", buyProductData[1].deliveryCharge);
             const result = await axios.post("http://localhost:5000/buySingleProducts", fromData,);
         } else {
             alert('You successfully buy product');
@@ -36,13 +37,13 @@ export default function BuyPage({ buyProductData, addToCart, isShopCreate }) {
     return (
         <div className='buyPage flex'>
             <div className='imgArea flex'>
-                <img src={buyProductData.productImage}></img>
+                <img src={buyProductData[0].productImage}></img>
             </div>
             <div className='productDetailsArea'>
-                <h1 className='productName'>{buyProductData.productName}</h1>
-                <p className='productDesc'>{buyProductData.description}</p>
-                <h3 className='productPriceArea flex3'><span>Product productPrice</span><span data-decoration="deleted">{buyProductData.productPrice * productItem}</span><span>{(buyProductData.productPrice - ((buyProductData.productPrice * buyProductData.offer) / 100)) * productItem}</span></h3>
-                <h3 className='productPriceArea flex3'><span>Delivery Charge</span><span>{buyProductData.deliveryCharge}</span></h3>
+                <h1 className='productName'>{buyProductData[0].productName}</h1>
+                <p className='productDesc'>{buyProductData[0].description}</p>
+                <h3 className='productPriceArea flex3'><span>Product productPrice</span><span data-decoration="deleted">{buyProductData[1].productPrice * productItem}</span><span>{(buyProductData[1].productPrice - ((buyProductData[1].productPrice * buyProductData[1].offer) / 100)) * productItem}</span></h3>
+                <h3 className='productPriceArea flex3'><span>Delivery Charge</span><span>{buyProductData[1].deliveryCharge}</span></h3>
                 <h1 className='totalPriceArea flex3'>
                     <span>Total Price</span>
                     <button className='decrease_value' onClick={() => {
@@ -58,10 +59,10 @@ export default function BuyPage({ buyProductData, addToCart, isShopCreate }) {
                     }}>
                         <img src={plusImg}></img>
                     </button>
-                    <span>{((buyProductData.productPrice - ((buyProductData.productPrice * buyProductData.offer) / 100)) * productItem) + buyProductData.deliveryCharge}</span>
+                    <span>{((buyProductData[1].productPrice - ((buyProductData[1].productPrice * buyProductData[1].offer) / 100)) * productItem) + buyProductData[1].deliveryCharge}</span>
                 </h1>
                 <div className='btnArea flex2'>
-                    <button className='btnAreaBtn btn' onClick={() => buyProduct()}>Buy</button>
+                    <button className='btnAreaBtn btn' onClick={() => buyProduct(buyProductData)}>Buy</button>
                     <button className="btnAreaBtn" onClick={() => addToCart(buyProductData)}>
                         <img src={addToCartImg} />
                     </button>

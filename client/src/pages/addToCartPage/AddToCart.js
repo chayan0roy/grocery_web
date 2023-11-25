@@ -31,7 +31,6 @@ export default function AddToCart({ PPCartData, setPPCartData, isShopCreate }) {
 		setCart(PPCartData);
 	}, [PPCartData])
 
-
 	const buyChartProdcts = async () => {
 		if (isShopCreate) {
 			cart.map((c) => {
@@ -83,8 +82,8 @@ export default function AddToCart({ PPCartData, setPPCartData, isShopCreate }) {
 										return (
 											<div className='cart flex2'>
 												<div className='leftArea flex3'>
-													<img src={cartData.productImage} ></img>
-													<h1>{cartData.productName}</h1>
+													<img src={cartData[0].productImage} ></img>
+													<h1>{cartData[0].productName}</h1>
 												</div>
 												<div className='rightArea flex2'>
 													<button className='decrease_value' onClick={() => {
@@ -105,12 +104,12 @@ export default function AddToCart({ PPCartData, setPPCartData, isShopCreate }) {
 														<img src={plusImg}></img>
 													</button>
 													<div className='rpoductPrice'>
-														<h3>{(cartData.productPrice - ((cartData.productPrice * cartData.offer) / 100)) * cartData.quantity}</h3>
-														<h3 className='flex3'><del>{cartData.productPrice * cartData.quantity}</del></h3>
+														<h3>{(cartData[1].productPrice - ((cartData[1].productPrice * cartData[1].offer) / 100)) * cartData.quantity}</h3>
+														<h3 className='flex3'><del>{cartData[1].productPrice * cartData.quantity}</del></h3>
 													</div>
 
 													<button className='deleteChart flex' onClick={() => {
-														const newChart = cart.filter((i) => i._id !== cartData._id);
+														const newChart = cart.filter((i) => (i[0]._id !== cartData[0]._id && i[1]._id !== cartData[1]._id));
 														setCart(newChart);
 
 														if (cart.length == 1) {
@@ -126,7 +125,7 @@ export default function AddToCart({ PPCartData, setPPCartData, isShopCreate }) {
 									<h2 className='flex3'>Total Items <span>{cart.length}</span></h2>
 									<h2 className='flex3'>Total amount <span>
 										{
-											cart.map(item => (item.productPrice - ((item.productPrice * item.offer) / 100)) * item.quantity).reduce((total, value) => total += value, 0)
+											cart.map(item => (item[1].productPrice - ((item[1].productPrice * item[1].offer) / 100)) * item.quantity).reduce((total, value) => total += value, 0)
 										}
 									</span></h2>
 									<button className="pricelistBuyBtn btn" onClick={buyChartProdcts}>Buy</button>

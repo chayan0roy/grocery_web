@@ -22,7 +22,7 @@ export default function FrontPage({ addToCart, setShopListProductData }) {
 	const [resultData, setResultData] = useState();
 	const [companyLists, setCompanyLists] = useState();
 
-	const allCatagory = ["cookies", "cake", "brade", "milkShake", "hotdog"];
+	const allCatagory = ["cookies"];
 
 	const getProducts = async () => {
 		const token = Cookies.get("auth_token");
@@ -62,85 +62,7 @@ export default function FrontPage({ addToCart, setShopListProductData }) {
 									<Slider {...settings}>
 										{
 											resultData.map((e) => {
-												if (e[0].catagory === allCatagory[0]) {
-													return (
-														<div className='slideBox'>
-															<Card cardData={e[0]} addToCart={addToCart} setShopListProductData={setShopListProductData} />
-														</div>
-													);
-												}
-											})
-										}
-									</Slider>
-								</div>
-							</>
-							:
-							<></>
-					}
-				</div>
-				<div className='boxArea'>
-					{
-						resultData
-							?
-							<>
-								<div className='boxAreaTop'>
-									<h1>{allCatagory[1]}</h1>
-									<Link className='link' to={`/secondPage/${allCatagory[1]}`}>See All</Link>
-								</div>
-								<div className='boxAreaBottom'>
-									{
-										resultData.map((e) => {
-											if (e.catagory === allCatagory[1]) {
-												return (
-													<Card cardData={e} addToCart={addToCart} setShopListProductData={setShopListProductData} />
-												);
-											}
-										})
-									}
-								</div>
-							</>
-							:
-							<></>
-					}
-				</div>
-				<div className='boxArea'>
-					{
-						resultData
-							?
-							<>
-								<div className='boxAreaTop'>
-									<h1>{allCatagory[2]}</h1>
-									<Link className='link' to={`/secondPage/${allCatagory[2]}`}>See All</Link>
-								</div>
-								<div className='boxAreaBottom'>
-									{
-										resultData.map((e) => {
-											if (e.catagory === allCatagory[2]) {
-												return (
-													<Card cardData={e} addToCart={addToCart} setShopListProductData={setShopListProductData} />
-												);
-											}
-										})
-									}
-								</div>
-							</>
-							:
-							<></>
-					}
-				</div>
-				<div className='slideArea'>
-					{
-						resultData ?
-							<>
-								<div className='slideAreaTop'>
-									<h1>{allCatagory[3]}</h1>
-									<Link className='link' to={`/secondPage/${allCatagory[3]}`}>See All</Link>
-								</div>
-								<div className='slideAreaBottom'>
-									<Slider {...settings}>
-										{
-											resultData.map((e) => {
-												if (e.catagory === allCatagory[3]) {
+												if (e.catagory=== allCatagory[0]) {
 													return (
 														<div className='slideBox'>
 															<Card cardData={e} addToCart={addToCart} setShopListProductData={setShopListProductData} />
@@ -150,31 +72,6 @@ export default function FrontPage({ addToCart, setShopListProductData }) {
 											})
 										}
 									</Slider>
-								</div>
-							</>
-							:
-							<></>
-					}
-				</div>
-				<div className='boxArea'>
-					{
-						resultData
-							?
-							<>
-								<div className='boxAreaTop'>
-									<h1>{allCatagory[4]}</h1>
-									<Link className='link' to={`/secondPage/${allCatagory[4]}`}>See All</Link>
-								</div>
-								<div className='boxAreaBottom'>
-									{
-										resultData.map((e) => {
-											if (e.catagory === allCatagory[4]) {
-												return (
-													<Card cardData={e} addToCart={addToCart} setShopListProductData={setShopListProductData} />
-												);
-											}
-										})
-									}
 								</div>
 							</>
 							:

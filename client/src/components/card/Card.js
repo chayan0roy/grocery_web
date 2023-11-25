@@ -1,6 +1,6 @@
 import React from 'react'
 import './Card.css'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import addToCartImg from '../../assets/cart1.png'
 
 export default function Card({ cardData, setShopListProductData }) {
